@@ -5,7 +5,7 @@
 ### 环境要求
 
 * Apache / Nginx / IIS
-* PHP >= 5.4.0
+* PHP >= 7.1.0
 * PDO PHP Extension
 * MBstring PHP Extension
 * CURL PHP Extension
