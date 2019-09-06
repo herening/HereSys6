@@ -19,6 +19,7 @@ use app\admin\model\AuthGroup;
 use app\admin\model\AuthRule;
 use app\common\base\AdminBase;
 use here\Tree;
+use think\facade\View;
 
 class Auth extends AdminBase
 {
@@ -60,9 +61,9 @@ class Auth extends AdminBase
             }
         }
         $groups = $this->getGroups();
-        $this->assign('groups', $groups);
-        $this->assign('title', '管理员列表');
-        return $this->fetch();
+        View::assign('groups', $groups);
+        View::assign('title', '管理员列表');
+        return View::fetch();
     }
 
     /**
@@ -103,7 +104,7 @@ class Auth extends AdminBase
             if(!$validate){
                 return $this->apiError($validate->getError());
             }else{
-                $adminInfo  =  AdminUser::get(['username' => $username]);
+                $adminInfo  =  AdminUser::find(['username' => $username]);
                 if($adminInfo){
                     return $this->apiError('用户名已存在');
                 }else{
@@ -117,8 +118,8 @@ class Auth extends AdminBase
             }
         }
         $groups = $this->getGroups();
-        $this->assign('groups', $groups);
-        return $this->fetch('admin_op');
+        View::assign('groups', $groups);
+        return View::fetch('admin_op');
 
     }
 
@@ -174,8 +175,8 @@ class Auth extends AdminBase
             }
         }
         $groups = $this->getGroups();
-        $this->assign('groups',$groups);
-        return $this->fetch('admin_op');
+        View::assign('groups',$groups);
+        return View::fetch('admin_op');
     }
 
     /**
@@ -192,8 +193,8 @@ class Auth extends AdminBase
         if($this->request->isPost()){
             return $this->apiTable($this->getGroups());
         }
-        $this->assign('title', '权限组列表');
-        return $this->fetch();
+        View::assign('title', '权限组列表');
+        return View::fetch();
     }
 
     /**
@@ -207,7 +208,7 @@ class Auth extends AdminBase
                 return $this->apiSuccess('添加成功');
             }
         }
-        return $this->fetch('group_op');
+        return View::fetch('group_op');
     }
 
     public function groupDel(){
@@ -233,7 +234,7 @@ class Auth extends AdminBase
                 return $this->apiError();
             }
         }
-        return $this->fetch('group_op');
+        return View::fetch('group_op');
     }
 
     /**
@@ -244,8 +245,8 @@ class Auth extends AdminBase
         $rules = AuthRule::field('id,pid,title')->order('sort', 'desc')->select()->toArray();
         $group_rules = AuthGroup::where('group_id', $group_id)->value('rules');
         $ztree = $this->buildZtree($rules, $pid=0, $group_rules);
-        $this->assign('ztree', json_encode($ztree,true));
-        return $this->fetch();
+        View::assign('ztree', json_encode($ztree,true));
+        return View::fetch();
     }
 
     /**
@@ -296,8 +297,8 @@ class Auth extends AdminBase
             $rules = AuthRule::order('sort asc')->select()->toArray();
             return $this->apiTable($rules);
         }
-        $this->assign('title', '权限管理');
-        return $this->fetch();
+        View::assign('title', '权限管理');
+        return View::fetch();
     }
 
     /**
@@ -337,8 +338,8 @@ class Auth extends AdminBase
                 return $this->apiError();
             }
         }
-        $this->assign('tree_list',$this->getRuleTree());
-        return $this->fetch('rule_op');
+        View::assign('tree_list',$this->getRuleTree());
+        return View::fetch('rule_op');
     }
 
     /**
@@ -354,8 +355,8 @@ class Auth extends AdminBase
                 return $this->apiError('添加失败！');
             }
         }
-        $this->assign('tree_list',$this->getRuleTree());
-        return $this->fetch('rule_op');
+        View::assign('tree_list',$this->getRuleTree());
+        return View::fetch('rule_op');
     }
 
     /**

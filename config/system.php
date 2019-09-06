@@ -15,4 +15,5 @@
 return [
     // 内置Html Console 支持扩展
     'version' => '1.01',
+    'app_name' => 'HereSys',
 ];

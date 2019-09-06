@@ -17,23 +17,25 @@ use app\common\base\AdminBase;
 use app\admin\model\AdminUser as User;
 use think\facade\Cache;
 use think\facade\Session;
+use think\facade\View;
 
 class Index extends AdminBase
 {
     /**
      * 首页入口
      * @return mixed
+     * @throws \Exception
      */
     public function index()
     {
         //echo config('app.view_type');
-        $this->assign('title',config('app_name'));
-        return $this->fetch();
+        View::assign('title',config('system.app_name'));
+        return View::fetch();
     }
 
     /**
      * 系统信息
-     * @return mixed
+     * return mixed
      */
     public function info(){
         $sys_info = Cache::get('sys_info');
@@ -41,13 +43,13 @@ class Index extends AdminBase
             $sys_info = $this->sysInfo();
             Cache::set('sys_info',$sys_info,3600);
         }
-        $this->assign('sys_info',$sys_info);
-        return $this->fetch();
+        View::assign('sys_info',$sys_info);
+        return View::fetch();
     }
 
     /**
      * 登录
-     * @return mixed|\think\response\Json
+     * return mixed|\think\response\Json
      */
     public function login()
     {
@@ -68,7 +70,7 @@ class Index extends AdminBase
                 }
             }
 
-            $admin = User::get(['username' => $data['username']]);
+            $admin = User::where(['username' => $data['username']])->find();
             if(!$admin['status']){
                 return $this->apiError('该账户已被冻结');
             }
@@ -89,8 +91,8 @@ class Index extends AdminBase
                 return $this->apiError('用户名或者密码错误');
             }
         }
-        $this->assign('title','登录');
-        return $this->fetch();
+        View::assign('title','登录');
+        return View::fetch();
     }
 
     /**

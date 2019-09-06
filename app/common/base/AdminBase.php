@@ -17,13 +17,14 @@ namespace app\common\base;
 use app\admin\model\AuthGroup;
 use app\admin\model\AuthRule;
 use here\Tree;
-use think\Controller;
+use app\BaseController;
 //use think\facade\Hook;
-use think\Db;
+use think\facade\Db;
 use think\facade\Request;
 use think\facade\Session;
+use think\facade\View;
 
-class AdminBase extends Controller
+class AdminBase extends BaseController
 {
 
     protected $path;
@@ -36,7 +37,7 @@ class AdminBase extends Controller
      */
     public function initialize()
     {
-        $this->path = Request::path();
+        $this->path = Request::pathinfo();
         $this->group_id = Session::get('admin.group_id');
         $this->rules_array = $this->getRulesArray();
         $this->getMenus($this->group_id);
@@ -95,15 +96,15 @@ class AdminBase extends Controller
         $href = (string)url('info');
         $home = ["url"=>$href,"icon"=>"fa fa-home","title"=>"首页"];
         $menu_out =['menus'=>$menus,'home'=>$home];
-        $this->assign('menus', json_encode($menu_out));
+        View::assign('menus', json_encode($menu_out));
     }
 
     /**
      * 获取权限数组
-     * @return array
+     * return array
      */
     public function getRulesArray(){
-        $rules = AuthGroup::get($this->group_id);
+        $rules = AuthGroup::find($this->group_id);
         $rules_array = explode(',', $rules['rules']);
         return $rules_array;
     }
@@ -177,7 +178,7 @@ class AdminBase extends Controller
 
     /**
      * 系统信息
-     * @return mixed
+     * return mixed
      */
     public function sysInfo(){
         $sys_info['os']             = PHP_OS;

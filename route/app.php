@@ -8,19 +8,10 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use think\facade\Route;
 
-/*Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});*/
+Route::get('think', function () {
+    return 'hello,ThinkPHP6!';
+});
 
-Route::get('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
-
-//Route::get('hello/:name', 'index/hello');
-
-Route::rule('hello/:name','hello')
-    ->middleware('check');
-
-
-return [
-
-];
+Route::get('hello/:name', 'index/hello');

@@ -15,15 +15,34 @@
         }
     ],
     "require": {
-        "php": ">=5.6.0",
-        "overtrue/wechat": "~4.0",
-        "endroid/qr-code": "^1.9",
-        "topthink/think-captcha": "^2.0",
+        "php": ">=7.1.0",
+        "topthink/framework": "6.0.*-dev",
         "topthink/think-image": "^1.0",
-        "topthink/think-helper": "^1.0",
-        "topthink/think-worker": "^1.0"
+        "topthink/think-captcha": "^3.0",
+        "topthink/think-worker": "^3.0",
+        "topthink/think-queue": "^3.0",
+        "qeq66/think-jump": "^1.0",
+        "overtrue/wechat": "^4.2",
+        "endroid/qr-code": "^3.5.8"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
+        }
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
     }
 }
