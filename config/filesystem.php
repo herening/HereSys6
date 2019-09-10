@@ -16,5 +16,17 @@ return [
             'visibility' => 'public',
         ],
         // 更多的磁盘配置信息
+        'publicAdmin' => [
+            'type'       => 'local',
+            'root'       => app()->getRootPath() . 'public/uploads/admin',
+            'url'        => '/storage/admin',
+            'visibility' => 'public',
+        ],
+        'publicIndex' => [
+            'type'       => 'local',
+            'root'       => app()->getRootPath() . 'public/uploads/index',
+            'url'        => '/storage/index',
+            'visibility' => 'public',
+        ],
     ],
 ];

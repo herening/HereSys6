@@ -10,19 +10,33 @@
 namespace app\admin\controller;
 
 use app\common\base\AdminBase;
+use think\exception\ValidateException;
+use think\facade\Filesystem;
 
 class HereUpload extends AdminBase {
 
+    protected $imgRules = [
+        'image' => 'fieldSize:10240|fileExt:jpg,png,gif,jpeg'
+    ];
     /**
      * 图片上传
+     * @param $method
      * @return \think\response\Json
      */
-    public function uploadImg(){
-        // 获取表单上传文件 例如上传了001.jpg
+    public function uploadImg($path = 'admin'){
+
         $file = $this->request->file('file');
-        // 移动到框架应用根目录/uploads/ 目录下
-        $info = $file->validate(['ext'=>config('app.img_ext')])->move(config('app.upload_path'));
-        if($info){
+        mydebug($file);
+        try {
+            validate($this->imgRules)
+                ->check($file);
+            $savename = Filesystem::disk('public')->putFile($path, $file);
+        } catch (ValidateException $e) {
+            echo $e->getMessage();
+        }
+
+        //$info = $file->validate(['ext'=>config('app.img_ext')])->move(config('app.upload_path'));
+        if($savename){
             // 成功上传后 获取上传信息
             $result['path'] = str_replace('\\','/',config('app.extra_path').$info->getSaveName());
             return $this->apiSuccess('上传成功', $result);

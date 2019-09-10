@@ -31,7 +31,7 @@
 	padding: 20px;
 }
 
-.layui-tab-content{
+#top_tabs_box .layui-tab-content{
 	height: 100%; padding: 0;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .layui-tab-item.layui-show{
-	position: absolute;
+	/*position: absolute;*/
 	top: 2px;
 	bottom: 0;
 	left: 0;
@@ -48,7 +48,6 @@
 	padding: 10px;
 	margin: 0;
 }
-
 
 .here-pointer {
 	cursor: pointer;
